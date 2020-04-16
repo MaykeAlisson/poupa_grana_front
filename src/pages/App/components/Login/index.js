@@ -1,10 +1,10 @@
 import React from 'react';
-import {Paper, Button, Link} from '@material-ui/core';
-import Input from '../../../../infra/components/CustomTxtField';
-import {useHistory} from "react-router-dom";
 import {useState} from "react";
 import {useRef} from "react";
 import {useContext} from "react";
+import {useEffect} from "react";
+import {Button, Link, Paper} from '@material-ui/core';
+import {useHistory} from "react-router-dom";
 
 import './styles.css';
 import {Api} from '../../../../services/api';
@@ -13,8 +13,9 @@ import Contexto from "../../context";
 import isEmpty from "../../../../infra/util/isEmpty";
 import comCustomLoading from "../../../../infra/components/CustomLoading";
 import comCustomMsg from "../../../../infra/components/CustomMsg";
-import {useEffect} from "react";
 import TextField from "@material-ui/core/TextField";
+
+import logo from '../../../../public/image/logo.png'
 
 import ReactGA from 'react-ga';
 
@@ -131,15 +132,14 @@ const Login = (
                 className="full-page-transparency">
                 <Paper
                     elevation={24}>
-
                     <div
                         style={{width: 280, padding: 30}}>
 
                         <div className="logo">
-                            <a href={"http://www.arcom.com.br/"}>
+                            <a href="">
                                 <img style={{maxWidth: 100}}
-                                     src="https://media-exp1.licdn.com/dms/image/C510BAQHml9VWZyqWlw/company-logo_200_200/0?e=2159024400&v=beta&t=qVh0hUoqKySIA4nyTjKgJfY8It_I5b5_y_AoXiI5nj4"
-                                     alt={"logo arcom"}/>
+                                     src={logo}
+                                     alt={"logo poupa grana"}/>
                             </a>
                         </div>
 
@@ -148,27 +148,21 @@ const Login = (
                         <TextField
                             className='login___btn'
                             required={true}
-                            id="filled-basic"
-                            label="CNPJ"
+                            label="E-mail"
                             variant="filled"
-                            type='number'
+                            type='email'
                             defaultValue=''
-                            error={erroCnpj}
-                            helperText={msgErroCNPJ}
-                            onInput={(e) => {
-                                e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 14)
-                            }}
-                            inputRef={iptCnpj}
+                            error={erroEmail}
+                            helperText={msgErroEmail}
+                            inputRef={iptEmail}
                         />
 
-                        {!ehCadastro && (
-                            <div>
+                        <div>
                                 <div style={{height: 12}}/>
 
                                 <TextField
                                     className='login___btn'
                                     required={true}
-                                    id="filled-basic"
                                     label="Senha"
                                     variant="filled"
                                     type='password'
@@ -179,7 +173,6 @@ const Login = (
                                 />
 
                             </div>
-                        )}
 
                         <Button
                             variant="contained"
@@ -190,7 +183,7 @@ const Login = (
                                 onClink()
                             }}
                         >
-                            {ehCadastro ? "Cadastrar" : "Entrar"}
+                            Entrar
                         </Button>
 
                         {!ehCadastro && (
