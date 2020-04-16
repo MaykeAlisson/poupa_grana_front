@@ -1,0 +1,41 @@
+.barra_navegacao___img_logo{
+    max-width: 80px;
+    max-height: 49px;
+}
+
+.btn-fechar-pedido{
+    border-color: white;
+    color: white;
+}
+
+.barra-pesquisa {
+    display: flex;
+    flex: 1;
+    margin: 12px;
+}
+
+.root {
+    display: flex;
+    flex: 0.95;
+    align-items: center;
+    background-color: #ffffff42;
+    border-radius: 4px;
+}
+
+.input-pesquisa {
+    padding-left: 12px;
+    flex: 1;
+    color: white !important;
+}
+
+.icon-button {
+    padding: 10px;
+    color: white !important;
+}
+
+@media (max-width: 600px)
+{
+    .icon-button {
+        display: none !important;
+    }
+}

@@ -1,0 +1,17 @@
+.tabs-main {
+    flex-grow: .85;
+}
+
+.tabs-paper {
+    padding: 40px;
+}
+
+.tabs-title {
+    font-size: 14pt;
+}
+
+.button {
+    text-decoration: none !important;
+    background-color: #00a651 !important;
+    color: white !important;
+}

@@ -1,0 +1,63 @@
+/*.tabela-mercadoria___img{*/
+/*    width: 80px;*/
+/*}*/
+
+.card {
+    padding: 20px;
+    margin: 12px;
+    text-align: center;
+    align-self: stretch;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.botoes {
+    display: block;
+    text-align: right;
+    margin-bottom: 16px;
+}
+
+.nome-produto {
+    font-size: 0.9rem !important;
+    display: block;
+    margin-top: 16px !important;
+    margin-bottom: 16px !important;
+    font-weight: 400 !important;
+}
+
+.box-image {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-produto {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.valor-produto {
+    display: block;
+    margin-bottom: 24px !important;
+    font-size: 1.1rem !important;
+}
+
+.card.selected {
+    border: 2px solid #3F51B5;
+}
+
+.row.selected {
+    background: #3f51b517;
+}
+
+@media (max-width: 600px)
+{
+    .tabela-mercadoria___img{
+        width: 0 !important;
+    }
+}
