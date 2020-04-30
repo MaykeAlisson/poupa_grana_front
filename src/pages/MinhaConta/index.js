@@ -11,6 +11,7 @@ import Contexto from '../App/context';
 import { Divider, Button } from '@material-ui/core';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {Link} from 'react-router-dom'
+import {useEffect} from "react";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,7 +46,11 @@ function a11yProps(index) {
 export default function MinhaConta() {
   const [value, setValue] = React.useState(0);
 
-  const { razaoSocial, cnpj, endereco } = useContext(Contexto);
+  const { buscaCredenciais, cliente} = useContext(Contexto);
+
+  useEffect(() => {
+    buscaCredenciais();
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,22 +72,22 @@ export default function MinhaConta() {
         <TabPanel value={value} index={0}>
           <Paper elevation={1} className="tabs-paper">
             <Typography variant="h5" component="h2">
-              EDSONIA ALVES DE OLIVEIRA & CIA LTDA
+              {cliente.fantasia}
             </Typography>
             <Typography color="textSecondary">
-              {razaoSocial}
+              Razão Social: {cliente.razaoSocial}
               <br />
-              {cnpj}
+              CNPJ: {cliente.cnpj}
               <br />
-              {endereco}
+              Endereço: {cliente.logradouro + " " + cliente.endereco + ", " + cliente.nroEndereco + " - " + cliente.bairro}
             </Typography>
             <br />
             <Divider />
             <br />
             <Typography variant="body2" component="p">
-              <b>Email:</b> supermercadocampeaoudi@gmail.com
+              <b>Email:</b> {cliente.email}
               <br />
-              <b>Data do último pedido:</b> 08/04/2020
+              <b>Data do último pedido:</b> {cliente.dataUltimoPedido}
               <br />
             </Typography>
           </Paper>

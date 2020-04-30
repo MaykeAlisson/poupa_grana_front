@@ -1,24 +1,24 @@
 import React from 'react';
-import {Paper, Button, Link} from '@material-ui/core';
-import Input from '../../../../infra/components/CustomTxtField';
-import {useHistory} from "react-router-dom";
 import {useState} from "react";
 import {useRef} from "react";
 import {useContext} from "react";
+import {useEffect} from "react";
+import {Button, Link, Paper} from '@material-ui/core';
+import MenuItem from "@material-ui/core/MenuItem";
+import {useHistory} from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import ReactGA from 'react-ga';
 
 import './styles.css';
 import {Api} from '../../../../services/api';
-import Session from '../../../../repository/Token';
+import ClienteRepository from 'Repository/ClienteRepository';
+import TokenRepository from 'Repository/TokenRepository';
 import Contexto from "../../context";
 import isEmpty from "../../../../infra/util/isEmpty";
 import comCustomLoading from "../../../../infra/components/CustomLoading";
 import comCustomMsg from "../../../../infra/components/CustomMsg";
-import {useEffect} from "react";
-import TextField from "@material-ui/core/TextField";
 
-import ReactGA from 'react-ga';
-
-const Request = Api.Cliente;
+const Request = Api.Seguranca;
 
 const Login = (
     {
@@ -32,7 +32,7 @@ const Login = (
 
     let history = useHistory();
 
-    const {buscaCredenciais} = useContext(Contexto);
+    const {buscaCredenciais,buscaPedidoEmAberto} = useContext(Contexto);
     const [ehCadastro, setCadastroCNPJ] = useState(false);
     const [erroCnpj, setErroCnpj] = useState(false);
     const [msgErroCNPJ, setMsgErroCNPJ] = useState("");
@@ -40,16 +40,21 @@ const Login = (
     const [msgErroSenha, setMsgErroSenha] = useState("");
     const iptCnpj = useRef(null);
     const iptSenha = useRef(null);
+    const [textBtn, setTxtBtn] = useState("Entrar");
+    const [recuperarSenha, setRecuperarSenha] = useState(false);
 
     useEffect(() => iptCnpj.current.focus(), []);
 
 
     const showPaginaCadastro = () => {
         setCadastroCNPJ(true);
+        setTxtBtn("Cadastrar");
     };
 
     const showPaginaLogin = () => {
         setCadastroCNPJ(false);
+        setRecuperarSenha(false);
+        setTxtBtn("Entrar");
         setErroCnpj(false);
         setMsgErroCNPJ("");
     };
@@ -67,6 +72,14 @@ const Login = (
 
         try {
             loading(true);
+
+            if (recuperarSenha){
+                let response = await Request.cadastro(parseInt(cnpj));
+                msgSucesso(response);
+                iptCnpj.current.value = '';
+                return;
+            }
+
             if (ehCadastro) {
                 if (cnpj === "") {
                     setErroCnpj(true);
@@ -76,16 +89,14 @@ const Login = (
                 setErroCnpj(false);
                 setMsgErroCNPJ("");
 
-                // let response = await Request.cadastro(parseInt(cnpj));
-                // msgSucesso(response);
-                msgSucesso("Em Breve você recebera uma senha no e-mail: fulano@gmail.com!")
+                let response = await Request.cadastro(parseInt(cnpj));
+                msgSucesso(response);
                 iptCnpj.current.value = '';
-                // alert("Confirmar CNPJ e enviar email para o cliente...")
 
                 ReactGA.event({
-                    category: 'new_user',
+                    category: 'user',
                     action: 'create_account',
-                    label: cnpj,
+                    label: 'CNPJ do Cadastro: ' + cnpj,
                 });
             } else {
                 const senha = iptSenha.current.value;
@@ -98,23 +109,21 @@ const Login = (
                 setMsgErroSenha("");
                 setErroSenha(false);
 
-                // let response = await Request.login(parseInt(cnpj), senha);
+                let response = await Request.login(parseInt(cnpj), senha);
+                TokenRepository.set( response.token );
+                ClienteRepository.set( response.cliente );
 
-                // msgSucesso(response)
-
-                Session.setItem('token', 'token_aqui');
-                Session.setItem('cnpj', '32.287.045/0001-85');
-                Session.setItem("razaoSocial", "Supermercado Campeão");
-                Session.setItem("endereco", " Republica do Piratini, 481");
                 buscaCredenciais();
+                buscaPedidoEmAberto();
+
                 onLoginSuccess();
                 loading(false);
-                history.push("/");
+                history.push("/pedido");
 
                 ReactGA.event({
                     category: 'user',
                     action: 'login',
-                    label: 'CNPJ do login: ' + cnpj,
+                    label: 'CNPJ do Login: ' + cnpj,
                 });
             }
         } catch (error) {
@@ -131,10 +140,8 @@ const Login = (
                 className="full-page-transparency">
                 <Paper
                     elevation={24}>
-
                     <div
                         style={{width: 280, padding: 30}}>
-
                         <div className="logo">
                             <a href={"http://www.arcom.com.br/"}>
                                 <img style={{maxWidth: 100}}
@@ -142,9 +149,7 @@ const Login = (
                                      alt={"logo arcom"}/>
                             </a>
                         </div>
-
                         <div style={{height: 24}}/>
-
                         <TextField
                             className='login___btn'
                             required={true}
@@ -160,11 +165,9 @@ const Login = (
                             }}
                             inputRef={iptCnpj}
                         />
-
                         {!ehCadastro && (
                             <div>
                                 <div style={{height: 12}}/>
-
                                 <TextField
                                     className='login___btn'
                                     required={true}
@@ -177,10 +180,19 @@ const Login = (
                                     helperText={msgErroSenha}
                                     inputRef={iptSenha}
                                 />
-
+                                <div className="login___esqueci-senha">
+                                    <MenuItem
+                                        onClick={() => {
+                                            showPaginaCadastro();
+                                            setTxtBtn("Solicitar Senha");
+                                            setRecuperarSenha(true);
+                                        }}
+                                    >
+                                        Esqueci minha senha
+                                    </MenuItem>
+                                </div>
                             </div>
                         )}
-
                         <Button
                             variant="contained"
                             fullWidth
@@ -190,9 +202,8 @@ const Login = (
                                 onClink()
                             }}
                         >
-                            {ehCadastro ? "Cadastrar" : "Entrar"}
+                            {textBtn}
                         </Button>
-
                         {!ehCadastro && (
                             <Link
                                 component="button"
@@ -205,7 +216,6 @@ const Login = (
                                 É cliente Arcom mas não tem cadastro ainda? <span style={{fontWeight: "bold"}}>Clique aqui</span>
                             </Link>
                         )}
-
                         {ehCadastro && (
                             <Link
                                 component="button"

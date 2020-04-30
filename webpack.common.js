@@ -44,6 +44,9 @@ module.exports = {
             Components: path.resolve(__dirname, 'src', 'infra', 'components'),
             Icons: path.resolve(__dirname, 'src', 'infra', 'icons'),
             Services: path.resolve(__dirname, 'src', 'services'),
+            Util: path.resolve(__dirname, 'src', 'infra', 'util'),
+            Repository: path.resolve(__dirname, 'src', 'repository'),
+            Commons: path.resolve(__dirname, 'src', 'commons')
         },
         extensions: ['.js', '.jsx']
     },

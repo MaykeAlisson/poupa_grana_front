@@ -22,7 +22,7 @@
 
 .div-botoes {
     margin-top: 12px;
-    display: flex;
+    display: flex; 
     justify-content: space-between;
 }
 

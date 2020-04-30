@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import WarningIcon from '@material-ui/icons/Warning';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
+import MuiAlert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import NotificationImportant from '@material-ui/icons/NotificationImportant';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 import './index.css';
 import Cores from '../../../util/Cores';
 import isEmpty from '../../../util/isEmpty';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+}));
 
 const Componente = props => {
 
@@ -31,85 +35,71 @@ const Componente = props => {
     } = props;
 
     let mensagem = '???';
-    let Icon = NotificationImportant;
     let backgroundColor = Cores.msgIndefinido;
     let fontColor = Cores.branco; // Apenas p/ não modal!!
+    let severidade = 'info';
+    const classes = useStyles();
 
     if (msgErro) {
         mensagem = extrairMsgAPI(msgErro);
-        Icon = ErrorIcon;
         backgroundColor = Cores.msgErro;
+        severidade = 'error';
     } else if (msgAviso) {
         mensagem = extrairMsgAPI(msgAviso);
-        Icon = WarningIcon;
         backgroundColor = Cores.msgAviso;
         fontColor = Cores.preto;
+        severidade = 'warning';
     } else if (msgSucesso) {
         mensagem = extrairMsgAPI(msgSucesso);
-        Icon = CheckCircleIcon;
         backgroundColor = Cores.msgSucesso;
+        severidade = 'success';
     } else if (msgInfo) {
         mensagem = extrairMsgAPI(msgInfo);
-        Icon = InfoIcon;
         backgroundColor = Cores.msgInfo;
+        severidade = 'info';
     } else if (msgFromObj) {
         if (msgFromObj.hasOwnProperty('stack') && msgFromObj.hasOwnProperty('message')) {
             mensagem = msgFromObj.message;
             if (isEmpty(msgFromObj.stack)) {
-                Icon = WarningIcon;
                 backgroundColor = Cores.msgAviso;
                 fontColor = Cores.preto;
+                severidade = 'warning';
             } else {
-                Icon = ErrorIcon;
                 backgroundColor = Cores.msgErro;
+                severidade = 'error';
             }
         } else if (msgFromObj.hasOwnProperty('message')) {
             mensagem = msgFromObj.message;
-            Icon = ErrorIcon;
             backgroundColor = Cores.msgErro;
+            severidade = 'error';
         } else {
             mensagem = msgFromObj;
-            Icon = ErrorIcon;
             backgroundColor = Cores.msgErro;
+            severidade = 'error';
         }
     }
 
-    const anchorOrigin = {
-        vertical: (posicionarNoTopo ? 'top' : 'bottom'),
-        horizontal: 'left'
-    };
-
     if (modal)
         return (
-            <Snackbar
-                anchorOrigin={anchorOrigin}
-                open={open}
-                onClose={onClose}
-            >
-                <SnackbarContent
-                    style={{backgroundColor: backgroundColor}}
-                    aria-describedby='client-snackbar'
-                    message={
-                        <span
-                            id='client-snackbar'
-                            className='custom-msg-modal'
-                        >
-                            <Icon className='custom-msg-icone' />
-                            {mensagem}
-                        </span>
-                    }
-                    action={[
-                        <IconButton
-                            key='close'
-                            aria-label='Close'
-                            color='inherit'
-                            onClick={onClose}
-                        >
-                            <CloseIcon className='custom-msg-icone' />
-                        </IconButton>
-                    ]}
-                />
-            </Snackbar>
+            <div className={classes.root}>
+                <Snackbar
+                    open={open}
+                    onClose={onClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    }}
+                >
+                    <MuiAlert
+                        elevation={6}
+                        variant='filled'
+                        severity={severidade}
+                        onClose={onClose}
+                    >
+                        {mensagem}
+                    </MuiAlert>
+                </Snackbar>
+            </div>
         );
 
     return (
@@ -162,10 +152,5 @@ Componente.defaultProps = {
     modal: true
 };
 
-const styles = theme => ({
-    margin: {
-        margin: theme.spacing.unit,
-    },
-});
 
-export default withStyles(styles)(Componente);
+export default Componente;

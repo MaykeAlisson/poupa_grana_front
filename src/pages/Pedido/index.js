@@ -1,21 +1,20 @@
 import React from 'react';
-
-import './styles.css';
-import Cliente from './components/Cliente';
-import CenteredGrid from './components/BarraLateral/grid';
 import {Container} from '@material-ui/core';
 
+import './styles.css';
+import Geral from './components/BarraLateral';
+import imgbanner2 from '../../../public/images/starlux02.jpg'
 
-const Pedido = () => {
-
+const Componente = () => {
 
     return (
         <div style={{marginTop:10}}>
+            <img src={imgbanner2} style={{width: "100%", marginTop: "-24px", marginBottom: "20px"}}/>
             <Container>
-                <CenteredGrid style={{marginTop: 20}}/>
+                <Geral style={{marginTop: 20}}/>
             </Container>
         </div>
     );
 };
 
-export default Pedido;
+export default Componente;

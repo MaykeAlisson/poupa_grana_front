@@ -36,6 +36,7 @@ const comCustomLoading = WrappedComponent => {
         render() {
 
             return (
+                <div>
                 <Fragment>
                     {
                         this.state.exibir &&
@@ -45,7 +46,9 @@ const comCustomLoading = WrappedComponent => {
                                 variant='indeterminate'
                                 style={{
                                     position: 'absolute',
-                                    zIndex: '9999'
+                                    zIndex: '9999',
+                                    top: "46%",
+                                    left: "48%",
                                 }}
                             />
                         )
@@ -59,6 +62,7 @@ const comCustomLoading = WrappedComponent => {
                     </div>
 
                 </Fragment>
+                </div>
             );
         }
     }

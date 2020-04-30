@@ -1,48 +1,40 @@
 import React from 'react';
 import {useContext} from 'react';
+import {useState} from "react";
 import {Link} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 
+
+import './index.css';
 import Toolbar from 'Components/CustomToolbar';
 import Btn from 'Components/CustomBtn';
 import Icone from 'Icons/CustomIconCarrinhoCompra';
 import Contexto from '../../context';
-import {useEffect} from "react";
+import MenuLateral from './MenuLateral';
+import PesquisaMercadoria from './PesquisaMercadoria';
+import comCustomLoading from "../../../../infra/components/CustomLoading";
+import comCustomMsg from "../../../../infra/components/CustomMsg";
+import isEmpty from '../../../../infra/util/isEmpty';
 
-import './index.css';
-import MenuLateral from './components/MenuLateral';
-import {useState} from "react";
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import CustomizedInputBase from './searchtextfield';
 
-const Page = (prop) => {
+const Componente = props => {
 
-    const {qtdProdutosLista} = useContext(Contexto);
+    const {qtdProdutosLista, salvaCarrinho } = useContext(Contexto);
     const [exibirMenu, setExibirMenu] = useState(false);
-
-    useEffect(() => {
-    }, [qtdProdutosLista]);
-
+    const history = useHistory();
 
     return (
         <Toolbar onClickMenu={() => setExibirMenu(true)}>
             <MenuLateral
                 exibirMenu={exibirMenu}
                 onFecharMenu={() => setExibirMenu(false)}
-                onLogout={() =>  prop.onLogoutSuccess()}
+                onLogout={() => props.onLogoutSuccess()}
             />
 
-            {/* <form className="barra-pesquisa" noValidate autoComplete="off">
-                <TextField 
-                    className="input-pesquisa"
-                    id="outlined-basic" 
-                    placeholder="Pesquisa..." 
-                    variant="outlined" 
-                    fullWidth/>
-            </form> */}
-
-            <CustomizedInputBase/>
+            <PesquisaMercadoria/>
 
             <Divider style={{height: 28, marginLeft: 12}} orientation="vertical" />
             <IconButton className="icon-button" component={Link} to="/minha-conta">
@@ -50,17 +42,24 @@ const Page = (prop) => {
             </IconButton>
 
             {
-                qtdProdutosLista > 0 &&
+                qtdProdutosLista > -1 &&
                 (
                     <Btn
                         className="btn-fechar-pedido"
-                        component={Link}
+                        onClick={() => {
+                            props.loading(true);
+                            salvaCarrinho( (msg) => {
+                                props.loading(false);
+                                props.msgFromObj(msg);
+                                if (isEmpty(msg)) {
+                                    history.push('/finaliza-pedido');
+                                }
+                            });
+                        }}
                         estilo="outlined"
-                        to='/finaliza-pedido'
                         icone={<Icone/>}
                         style={{color: "white", borderColor: "white"}}
                     >
-                        {/* {qtdProdutosLista > 1 ? qtdProdutosLista + ' itens' : qtdProdutosLista + ' item'} */}
                         {qtdProdutosLista}
                     </Btn>
                 )
@@ -69,4 +68,4 @@ const Page = (prop) => {
     )
 };
 
-export default Page;
+export default comCustomLoading(comCustomMsg(Componente));

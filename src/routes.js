@@ -9,7 +9,7 @@ import MinhaConta from './pages/MinhaConta'
 
 export default () => (
     <Switch>
-        <Route path='/' exact component={Home} />
+        <Route path='/' exact component={Pedido} />
         {/*<Route path='/login' exact component={Login} />*/}
         <Route path='/pedido' exact component={Pedido} />
         <Route path='/finaliza-pedido' exact component={FinalizaPedido} />

@@ -1,9 +1,9 @@
 import axios from 'axios';
-import Token from "../repository/Token";
+import TokenRepository from 'Repository/TokenRepository';
 
 const baseURL = () => {
     if (process.env.NODE_ENV === 'production')
-        return 'http://playextdev.arcom.com.br';
+        return 'https://cdn01.arcom.com.br';
     const os = require('os');
     return `http://${os.hostname()}:6030`;
 };
@@ -17,16 +17,12 @@ const clientHttp = axios.create({
 clientHttp.interceptors.request.use(
 
     config => {
-        config.headers['Authorization'] = 'Bearer ' + Token.getToken();
+        config.headers['Authorization'] = 'Bearer ' + TokenRepository.get();
         return config;
     },
 
     error => Promise.reject(error)
 );
-
-// axios.defaults.validateStatus = function () {
-//     return true;
-// };
 
 const NO_CONTENT = 204;
 const UNAUTHORIZED = 401;
@@ -50,6 +46,8 @@ clientHttp.interceptors.response.use(
 
             const data = error.response.data;
 
+            if (data instanceof Blob)
+                return traduzErroBlob(data);
 
             erro = traduzErro(data);
             if (error.response.status === UNAUTHORIZED) {
@@ -58,19 +56,37 @@ clientHttp.interceptors.response.use(
                     message: 'Falhou autenticacao'
                 };
                 console.error(erro);
-                Token.clear();
-                window.location = '/';
+                TokenRepository.clear();
+                const pathname = window.location.pathname;
+                if (pathname !== '/')
+                    window.location = '/'; // TODO SERA NECESARIO PARA REDIRECIONAR O USUARIO PARA O LOGIN
             }
 
         } else {
-            Token.clear();
-            window.location = '/';
+            TokenRepository.clear();
+            // const pathname = window.location.pathname
+            // if (pathname !== '/')
+            //     window.location = '/';
+            // // window.location = '/';
         }
 
         return Promise.reject(erro);
     }
 );
 
+const traduzErroBlob = data => {
+
+    const wait = data => new Promise(resolve=> {
+        let reader = new FileReader();
+        reader.onload = event => {
+            const json = JSON.parse(event.target.result);
+            resolve( traduzErro(json) );
+        };
+        reader.readAsText(data);
+    }).then(json => Promise.reject(json));
+
+    return wait(data);
+};
 
 const traduzErro = data => {
 
@@ -80,6 +96,10 @@ const traduzErro = data => {
     };
 
     if (data.erro) {
+        console.log("ERRO__________");
+        console.log(data.erro);
+        console.log(JSON.stringify(data.erro));
+        console.log("/ERRO__________");
         if (data.erro.sqlRegistroDuplicado || data.erro.sqlRegistroAlteradoPorOutroUsuario) {
             const message = data.erro.sqlRegistroDuplicado
                 ? 'Registro já foi inserido por outro usuario!'
@@ -100,9 +120,9 @@ const traduzErro = data => {
                     console.error(`Erro Api: ${retorno.stack}`);
                     console.error(`Mensagem: ${retorno.message}`);
                 } else if (data.erro.message) {
-                    retorno = {message: data.erro.message};
+                    retorno = { message: data.erro.message };
                 } else {
-                    retorno = {message: data.erro};
+                    retorno = { message: data.erro };
                 }
             } else {
                 retorno = {
@@ -119,5 +139,7 @@ const traduzErro = data => {
     }
 
     return retorno;
-}
+
+};
+
 export default clientHttp;

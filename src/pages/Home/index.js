@@ -4,8 +4,6 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import {useHistory} from 'react-router-dom';
 
-import imgRepelente from '../../../public/images/repelente.jpg'
-
 import './styles.css';
 
 export default () => {
@@ -23,7 +21,6 @@ export default () => {
                 <Button className='home___opcao___titulo'>MEUS PEDIDOS</Button>
                 <Button className='home___opcao___titulo'>2&deg; VIA BOLETO</Button>
             </ButtonGroup>
-            <img className="home___banner" src={imgRepelente} />
         </div>
     );
 

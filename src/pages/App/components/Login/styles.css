@@ -44,6 +44,11 @@
     display: block;
 }
 
+.login___esqueci-senha{
+    margin-top: 10px;
+    float: right;
+}
+
 @media (max-width: 900px) {
     .full-page-transparency {
         justify-content: center;

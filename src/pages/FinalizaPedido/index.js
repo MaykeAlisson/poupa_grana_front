@@ -1,19 +1,18 @@
 import React from 'react';
-
+import {useState} from 'react';
 import { Container, Grid, Button } from '@material-ui/core';
-import Tabela from './components/TabelaCheckout/tabela-checkout';
-import Checkout from './components/Checkout/checkout';
+
+import Tabela from './components/TabelaCheckout';
+import Checkout from './components/Checkout';
 import {Link} from 'react-router-dom'
 
-import {useState} from "react";
-
-const Pedido = (props) => {
+const Componente = props => {
   
   const [updateState, setState] = useState(false);
   
   const forceUpdate = () => {
     setState(!updateState);
-  }
+  };
   
   return (
     <div style={{ fontFamily: "Raleway" }}>
@@ -41,4 +40,4 @@ const Pedido = (props) => {
   );
 };
 
-export default Pedido;
+export default Componente;
