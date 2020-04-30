@@ -25,13 +25,11 @@ theme = responsiveFontSizes(theme);
 
 ReactDOM.render(
     <BrowserRouter>
-        <Analytics id="UA-163624979-1">
             <ThemeProvider theme={theme}>
                 <App>
                     <Routes />
                 </App>
             </ThemeProvider>
-        </Analytics>
     </BrowserRouter>
     ,
     document.getElementById('container')

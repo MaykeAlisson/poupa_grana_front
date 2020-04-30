@@ -1,0 +1,66 @@
+.index-capa{
+  display: table;
+  width: 100%;
+  max-width: 1980px;
+  height: 100%;
+  background-image: url('../../../../../public/images/vida_epica.png');
+  background-size: cover;
+  position: relative;
+}
+
+.index-capa___texto{
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: oblique;
+  font-size: 20px;
+  letter-spacing: -0.05em;
+  word-spacing: -2px;
+}
+
+.index-session___funcionalidades{
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  background-image: url('../../../../../public/images/linhas-curvas.png');
+  background-color: #fff5f8;
+  justify-content: center;
+  height: 500px;
+}
+.index-session___funcionalidade___carteira{
+  margin-top: 50px;
+  text-align: center;
+}
+.index-session___funcionalidade___direcao{
+  margin-top: 50px;
+  text-align: center;
+}
+.index-session___funcionalidade___praia{
+  margin-top: 50px;
+  text-align: center;
+}
+.funcionalidade___img-carteira{
+  height: 55px;
+}
+.funcionalidade___img-direcao{
+  height: 55px;
+}
+.funcionalidade___img-praia{
+  height: 55px;
+}
+
+@media only screen and (min-width: 992px) {
+  .index-capa {
+    min-height: 565px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .index-capa{
+    min-height: 450px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .index-capa{
+    min-height: 250px;
+  }
+}
