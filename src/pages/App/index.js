@@ -1,32 +1,23 @@
-import React from 'react';
-import {useEffect} from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 
-import BarraNavegacao from './components/BarraNavegacao';
-import Index from '../Index';
-import AppProvider from './context/provider';
-import Login from './components/Login';
-import TokenRepository from 'Repository/TokenRepository';
+import AppProvider from '../../contexto/provider';
+import Acesso from "../Acesso";
 
 export default ({children}) => {
 
-    const [autenticado, setAutenticado] = useState(false);
+    const [autenticado, setAutenticado] = useState(true);
 
     // useEffect(() => {
     //     setAutenticado(TokenRepository.isAuthenticated());
     // }, []);
 
     return (
-        <AppProvider>
+        <>
             {
                 autenticado
-                ? <>
-                    <BarraNavegacao onLogoutSuccess={() => setAutenticado(false) } />
-                    {children}
-                  </>
-                    : <Index/>
-                // : <Login onLoginSuccess={() => setAutenticado(true)} />
+                    ? <AppProvider>{children}</AppProvider>
+                    : <Acesso/>
             }
-        </AppProvider>
+        </>
     );
 }

@@ -1,5 +1,8 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
     module: {
@@ -34,19 +37,68 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
+        }),
+        new ServiceWorkerWebpackPlugin({
+            entry: path.join(__dirname, './src/sw.js'),
+        }),
+        new WebpackPwaManifest({
+            filename: 'manifest.json',
+            name: 'Poupa Grana',
+            short_name: 'Poupa Grana',
+            description: 'Poupa Grana Web App!',
+            display: 'standalone',
+            orientation: 'portrait',
+            start_url: '/',
+            background_color: '#00A651',
+            theme_color: '#00A651',
+            inject: true,
+            crossorigin: 'anonymous', //can be null, use-credentials or anonymous
+            ios : true ,
+            // icons: [
+            //     {
+            //         src: path.resolve(__dirname,'./public/images/logo-192x192.png'),
+            //         type: 'image/png',
+            //         size: '192x192'
+            //     },
+            //     {
+            //         src: path.resolve(__dirname,'./public/images/logo-512x512.png'),
+            //         type: 'image/png',
+            //         size: '512x512'
+            //     },
+            //     {
+            //         src: path.resolve(__dirname,'./public/images/logo-152x152.png'),
+            //         type: 'image/png',
+            //         size: '152x152',
+            //         ios : true
+            //     },
+            //     {
+            //         src: path.resolve(__dirname,'./public/images/logo-167x167.png'),
+            //         type: 'image/png',
+            //         size: '167x167',
+            //         ios : true
+            //     },
+            //     {
+            //         src: path.resolve(__dirname,'./public/images/logo-180x180.png'),
+            //         type: 'image/png',
+            //         size: '180x180',
+            //         ios : true
+            //     },
+            // ]
         })
     ],
     resolve: {
         alias: {
-            Components: path.resolve(__dirname, 'src', 'infra', 'components'),
-            Icons: path.resolve(__dirname, 'src', 'infra', 'icons'),
+            Commons: path.resolve(__dirname, 'src', 'commons'),
+            Contexts: path.resolve(__dirname, 'src', 'contexts'),
             Services: path.resolve(__dirname, 'src', 'services'),
+            Components: path.resolve(__dirname, 'src', 'infra', 'components'),
             Util: path.resolve(__dirname, 'src', 'infra', 'util'),
-            Repository: path.resolve(__dirname, 'src', 'repository'),
-            Commons: path.resolve(__dirname, 'src', 'commons')
+            Icons: path.resolve(__dirname, 'src', 'infra', 'icons'),
+            Repository: path.resolve(__dirname, 'src', 'repository')
         },
         extensions: ['.js', '.jsx']
     },

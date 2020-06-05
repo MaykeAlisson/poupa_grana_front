@@ -11,12 +11,3 @@ module.exports = merge(common, {
         historyApiFallback: true
     },
 });
-
-/*
-retirei:          
-
-    devServer: {
-        compress: true,
-    }
-
-*/

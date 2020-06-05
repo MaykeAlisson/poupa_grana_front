@@ -17,7 +17,7 @@ const clientHttp = axios.create({
 clientHttp.interceptors.request.use(
 
     config => {
-        config.headers['Authorization'] = 'Bearer ' + TokenRepository.get();
+        config.headers['Authorization'] = 'Bearer ' + TokenRepository.getSession();
         return config;
     },
 
@@ -39,7 +39,7 @@ clientHttp.interceptors.response.use(
 
         let erro = {
             stack: '',
-            message: 'Erro ao executar API - Contate o departamento de TI'
+            message: 'Sistema indisponível no momento - Tente mais tarde'
         };
 
         if (error.response)  {
@@ -59,7 +59,7 @@ clientHttp.interceptors.response.use(
                 TokenRepository.clear();
                 const pathname = window.location.pathname;
                 if (pathname !== '/')
-                    window.location = '/'; // TODO SERA NECESARIO PARA REDIRECIONAR O USUARIO PARA O LOGIN
+                    window.location = '/';
             }
 
         } else {
@@ -92,14 +92,10 @@ const traduzErro = data => {
 
     let retorno = {
         stack: '',
-        message: 'Erro ao executar API - Contate o departamento de TI'
+        message: 'Sistema indisponível no momento - Tente mais tarde'
     };
 
     if (data.erro) {
-        console.log("ERRO__________");
-        console.log(data.erro);
-        console.log(JSON.stringify(data.erro));
-        console.log("/ERRO__________");
         if (data.erro.sqlRegistroDuplicado || data.erro.sqlRegistroAlteradoPorOutroUsuario) {
             const message = data.erro.sqlRegistroDuplicado
                 ? 'Registro já foi inserido por outro usuario!'

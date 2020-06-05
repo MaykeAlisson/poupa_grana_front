@@ -1,6 +1,7 @@
 const isEmpty = (obj = {}) => {
-
     if (obj) {
+        if (obj instanceof Map)
+            return obj.size === 0;
         if (Array.isArray(obj))
             return obj.length === 0;
         else if (obj.constructor.name === 'Date' && obj.getDate())
@@ -17,7 +18,6 @@ const isEmpty = (obj = {}) => {
         if (typeof obj === 'number' && obj === 0)
             return false;
     }
-
     return true;
 };
 
