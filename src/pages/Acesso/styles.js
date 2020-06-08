@@ -12,7 +12,18 @@ export default makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         background: '#778899'
-    }
+    },
+    pageCenter: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        width: '100%',
+        height: '100vh',
+        position: 'fixed',
+        justifyContent: 'center',
+        flexDirection: "column"
+    },
 
 }));
 

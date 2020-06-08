@@ -8,7 +8,8 @@ import Link from "@material-ui/core/Link";
 import isEmpty from "../../../../infra/util/isEmpty";
 import comCustomLoading from "../../../../infra/components/CustomLoading";
 import comCustomMsg from "../../../../infra/components/CustomMsg";
-import Logo from "../../../../../public/images/moedas80x80.png";
+// import Logo from "../../../../../public/images/moedas80x80.png";
+import useStyles from './styles';
 
 const Login = (
     {
@@ -20,21 +21,23 @@ const Login = (
     }
 ) => {
 
+    const classes = useStyles();
+
     const [textBtn, setTextBtn] = useState('Login')
 
     return (
         <>
             <div style={{width: 280, padding: 30}}>
-                <div className="logo">
+                <div className={classes.logo}>
                     <img
                         style={{margin: 16}}
-                        src={Logo}
+                        // src={Logo}
                         alt="logo poupa grana"
                     />
                 </div>
                 <div style={{height: 24}}/>
                 <TextField
-                    className="login___btn"
+                    className={classes.input}
                     required
                     id="filled-basic"
                     label="Email"
@@ -44,10 +47,8 @@ const Login = (
                     // error={erroCnpj}
                     // helperText={msgErroCNPJ}
                 />
-                <div>
-                    <div style={{height: 12}}/>
                     <TextField
-                        className="login___btn"
+                        className={classes.input}
                         required
                         id="filled-basic"
                         label="Senha"
@@ -55,7 +56,7 @@ const Login = (
                         type="password"
                         defaultValue=""
                     />
-                    <div className="login___esqueci-senha">
+                    <div className={classes.esqueciMinhaSenha}>
                         <MenuItem
                             onClick={() => {
                                 // showPaginaCadastro();
@@ -66,7 +67,6 @@ const Login = (
                             Esqueci minha senha
                         </MenuItem>
                     </div>
-                </div>
                 <Button
                     variant="contained"
                     fullWidth

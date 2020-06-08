@@ -1,15 +1,9 @@
 import React, {useState} from 'react';
 
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 
-import './styles.css';
 import useStyles from './styles';
 import Background from '../../../public/images/linhas-curvas.png';
-import Logo from '../../../public/images/moedas80x80.png';
 import Login from './component/Login';
 import Cadastro from './component/Cadastro';
 
@@ -17,22 +11,11 @@ const Acesso = () => {
     const classes = useStyles();
 
     const [ehCadastro, setCadastro] = useState(true);
-    const [textBtn, setTextBtn] = useState('Login')
-
-    const showPaginaCadastro = () => {
-        setCadastro(true)
-        setTextBtn('Cadastro')
-    }
-
-    const showPaginaLogin = () => {
-        setCadastro(false)
-        setTextBtn('Login')
-    }
 
     return (
         <>
             <div className={classes.fullPage} style={{backgroundImage: `url(${Background})`}}>
-                <div className="full-page-transparency">
+                <div className={classes.pageCenter}>
                     <Paper elevation={24}>
                         {
                             ehCadastro

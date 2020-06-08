@@ -4,23 +4,30 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 
-import Logo from "../../../../../public/images/moedas80x80.png";
+// import Logo from "../../../../../public/images/moedas80x80.png";
 import Paper from "@material-ui/core/Paper";
+import useStyles from "./styles";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import FormLabel from "@material-ui/core/FormLabel";
 
 const Cadastro = () => {
+
+    const classes = useStyles();
 
     return (
         <>
             <div style={{width: 300, padding: 10}}>
-                <div className="logo">
+                <div className={classes.logo}>
                     <img
                         style={{margin: 10}}
-                        src={Logo}
+                        // src={Logo}
                         alt="logo poupa grana"
                     />
                 </div>
                 <TextField
-                    className="login___btn"
+                    className={classes.input}
                     required
                     id="filled-basic"
                     label="Nome"
@@ -31,7 +38,7 @@ const Cadastro = () => {
                     // helperText={msgErroCNPJ}
                 />
                 <TextField
-                    className="login___btn"
+                    className={classes.input}
                     variant="filled"
                     label="Nascimento"
                     type="date"
@@ -41,19 +48,23 @@ const Cadastro = () => {
                         shrink: true,
                     }}
                 />
+                <FormLabel required={true} className={classes.input} component="legend">Sexo</FormLabel>
+                <RadioGroup row aria-label="position" name="position" defaultValue="top">
+                    <FormControlLabel
+                        value="F"
+                        control={<Radio color="primary" />}
+                        label="Feminino"
+                        labelPlacement="Femenino"
+                    />
+                    <FormControlLabel
+                        value="M"
+                        control={<Radio color="primary" />}
+                        label="Masculino"
+                        labelPlacement="Masculino"
+                    />
+                </RadioGroup>
                 <TextField
-                    className="login___btn"
-                    required
-                    id="filled-basic"
-                    label="Sexo"
-                    variant="filled"
-                    type="text"
-                    defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
-                />
-                <TextField
-                    className="login___btn"
+                    className={classes.input}
                     required
                     id="filled-basic"
                     label="Email"
@@ -64,7 +75,7 @@ const Cadastro = () => {
                     // helperText={msgErroCNPJ}
                 />
                 <TextField
-                    className="login___btn"
+                    className={classes.input}
                     required
                     id="filled-basic"
                     label="Senha"
@@ -75,7 +86,7 @@ const Cadastro = () => {
                     // helperText={msgErroCNPJ}
                 />
                 <TextField
-                    className="login___btn"
+                    className={classes.input}
                     required
                     id="filled-basic"
                     label="Confirma Senha"
