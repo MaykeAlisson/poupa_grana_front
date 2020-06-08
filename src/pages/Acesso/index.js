@@ -10,7 +10,7 @@ import Cadastro from './component/Cadastro';
 const Acesso = () => {
     const classes = useStyles();
 
-    const [ehCadastro, setCadastro] = useState(true);
+    const [ehCadastro, setCadastro] = useState(false);
 
     return (
         <>

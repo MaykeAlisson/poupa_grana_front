@@ -1,19 +1,28 @@
-import React from "react";
+import React from 'react';
 
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
-// import Logo from "../../../../../public/images/moedas80x80.png";
-import Paper from "@material-ui/core/Paper";
-import useStyles from "./styles";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import FormLabel from '@material-ui/core/FormLabel';
 
-const Cadastro = () => {
+import useStyles from './styles';
+import Logo from '../../../../../public/images/moedas80x80.png';
+import comCustomMsg from "../../../../infra/components/CustomMsg";
+import comCustomLoading from "../../../../infra/components/CustomLoading";
 
+const Cadastro = (
+    {
+        alteraCadastro,
+        msgErro,
+        msgAviso,
+        msgSucesso,
+        loading
+    }
+) => {
     const classes = useStyles();
 
     return (
@@ -22,20 +31,17 @@ const Cadastro = () => {
                 <div className={classes.logo}>
                     <img
                         style={{margin: 10}}
-                        // src={Logo}
+                        src={Logo}
                         alt="logo poupa grana"
                     />
                 </div>
                 <TextField
                     className={classes.input}
                     required
-                    id="filled-basic"
                     label="Nome"
                     variant="filled"
                     type="text"
                     defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
                 />
                 <TextField
                     className={classes.input}
@@ -48,17 +54,17 @@ const Cadastro = () => {
                         shrink: true,
                     }}
                 />
-                <FormLabel required={true} className={classes.input} component="legend">Sexo</FormLabel>
+                <FormLabel required className={classes.input} component="legend">Sexo</FormLabel>
                 <RadioGroup row aria-label="position" name="position" defaultValue="top">
                     <FormControlLabel
                         value="F"
-                        control={<Radio color="primary" />}
+                        control={<Radio color="primary"/>}
                         label="Feminino"
-                        labelPlacement="Femenino"
+                        labelPlacement="Feminino"
                     />
                     <FormControlLabel
                         value="M"
-                        control={<Radio color="primary" />}
+                        control={<Radio color="primary"/>}
                         label="Masculino"
                         labelPlacement="Masculino"
                     />
@@ -66,35 +72,26 @@ const Cadastro = () => {
                 <TextField
                     className={classes.input}
                     required
-                    id="filled-basic"
                     label="Email"
                     variant="filled"
                     type="text"
                     defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
                 />
                 <TextField
                     className={classes.input}
                     required
-                    id="filled-basic"
                     label="Senha"
                     variant="filled"
                     type="text"
                     defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
                 />
                 <TextField
                     className={classes.input}
                     required
-                    id="filled-basic"
                     label="Confirma Senha"
                     variant="filled"
                     type="text"
                     defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
                 />
                 <Button
                     variant="contained"
@@ -114,7 +111,7 @@ const Cadastro = () => {
                     variant="body2"
                     style={{width: '100%', textAlign: 'center'}}
                     onClick={() => {
-                        // showPaginaLogin();
+                        alteraCadastro();
                     }}
                 >
                     Já tenho conta,
@@ -124,6 +121,6 @@ const Cadastro = () => {
             </div>
         </>
     );
-}
+};
 
-export default Cadastro;
+export default comCustomLoading(comCustomMsg(Cadastro));

@@ -8,8 +8,9 @@ import Link from "@material-ui/core/Link";
 import isEmpty from "../../../../infra/util/isEmpty";
 import comCustomLoading from "../../../../infra/components/CustomLoading";
 import comCustomMsg from "../../../../infra/components/CustomMsg";
-// import Logo from "../../../../../public/images/moedas80x80.png";
+import Logo from "../../../../../public/images/moedas80x80.png";
 import useStyles from './styles';
+import {useRef} from "react";
 
 const Login = (
     {
@@ -23,7 +24,12 @@ const Login = (
 
     const classes = useStyles();
 
-    const [textBtn, setTextBtn] = useState('Login')
+    const [textBtn, setTextBtn] = useState('Login');
+    const [recuperarSenha, setRecuperarSenha] = useState(false)
+    const [erro, setErro] = useState([])
+    const [msgErroInput, setMsgErroInput] = useState([])
+    const inputEmail = useRef(null);
+    const inputSenha = useRef(null);
 
     return (
         <>
@@ -31,7 +37,7 @@ const Login = (
                 <div className={classes.logo}>
                     <img
                         style={{margin: 16}}
-                        // src={Logo}
+                        src={Logo}
                         alt="logo poupa grana"
                     />
                 </div>
@@ -39,34 +45,41 @@ const Login = (
                 <TextField
                     className={classes.input}
                     required
-                    id="filled-basic"
                     label="Email"
                     variant="filled"
-                    type="text"
+                    type="email"
                     defaultValue=""
-                    // error={erroCnpj}
-                    // helperText={msgErroCNPJ}
+                    inputRef={inputEmail}
+                    error={erro['email']}
+                    helperText={msgErroInput['email']}
                 />
-                    <TextField
-                        className={classes.input}
-                        required
-                        id="filled-basic"
-                        label="Senha"
-                        variant="filled"
-                        type="password"
-                        defaultValue=""
-                    />
-                    <div className={classes.esqueciMinhaSenha}>
-                        <MenuItem
-                            onClick={() => {
-                                // showPaginaCadastro();
-                                // setTextBtn("Solicitar Senha");
-                                // setRecuperarSenha(true);
-                            }}
-                        >
-                            Esqueci minha senha
-                        </MenuItem>
-                    </div>
+                {
+                    !recuperarSenha && (
+                        <>
+                            <TextField
+                                className={classes.input}
+                                required
+                                label="Senha"
+                                variant="filled"
+                                type="password"
+                                defaultValue=""
+                                inputRef={inputSenha}
+                                // error={erroCnpj}
+                                // helperText={msgErroCNPJ}
+                            />
+                            <div className={classes.esqueciMinhaSenha}>
+                                <MenuItem
+                                    onClick={() => {
+                                        setTextBtn("Solicitar Senha");
+                                        setRecuperarSenha(true);
+                                    }}
+                                >
+                                    Esqueci minha senha
+                                </MenuItem>
+                            </div>
+                        </>
+                    )
+                }
                 <Button
                     variant="contained"
                     fullWidth
