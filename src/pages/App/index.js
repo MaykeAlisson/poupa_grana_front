@@ -5,7 +5,7 @@ import Acesso from "../Acesso";
 
 export default ({children}) => {
 
-    const [autenticado, setAutenticado] = useState(true);
+    const [autenticado, setAutenticado] = useState(false);
 
     // useEffect(() => {
     //     setAutenticado(TokenRepository.isAuthenticated());
