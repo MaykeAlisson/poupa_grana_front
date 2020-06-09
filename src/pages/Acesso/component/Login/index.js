@@ -27,8 +27,10 @@ const Login = (
 
     const [textBtn, setTextBtn] = useState('Login');
     const [recuperarSenha, setRecuperarSenha] = useState(false)
-    const [erro, setErro] = useState({})
-    const [msgErroInput, setMsgErroInput] = useState({})
+    const [erroSenha, setErroSenha] = useState(false)
+    const [erroEmail, setErroEmail] = useState(false);
+    const [msgErroSenha, setMsgErroSenha] = useState('')
+    const [msgErroEmail, setMsgErroEmail] = useState('')
     const inputEmail = useRef(null);
     const inputSenha = useRef(null);
 
@@ -38,12 +40,22 @@ const Login = (
         
     const submit = () => {
         const email = inputEmail.current.value;
+        const senha = inputSenha.current.value;
 
         if (isEmpty(email)) {
-            setErro( erro.email = true );
-            setMsgErroInput(msgErroInput.email = 'Email Obrigatorio!');
+            setErroEmail(true);
+            setMsgErroEmail('Email obrigatorio!');
             return;
         }
+        setErroEmail(false);
+        setMsgErroEmail('');
+        if (isEmpty(senha)) {
+            setErroSenha(true);
+            setMsgErroSenha('Senha obrigatoria!');
+            return;
+        }
+        setErroSenha(false);
+        setMsgErroSenha('');
         
         alert("Passou")
         
@@ -68,8 +80,8 @@ const Login = (
                     type="email"
                     defaultValue=""
                     inputRef={inputEmail}
-                    error={erro.email}
-                    helperText={msgErroInput.email}
+                    error={erroEmail}
+                    helperText={msgErroEmail}
                 />
                 {
                     !recuperarSenha && (
@@ -82,8 +94,8 @@ const Login = (
                                 type="password"
                                 defaultValue=""
                                 inputRef={inputSenha}
-                                // error={erroCnpj}
-                                // helperText={msgErroCNPJ}
+                                error={erroSenha}
+                                helperText={msgErroSenha}
                             />
                             <div className={classes.esqueciMinhaSenha}>
                                 <MenuItem
