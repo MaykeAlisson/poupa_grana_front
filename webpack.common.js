@@ -3,6 +3,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
     module: {
@@ -31,6 +32,9 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
+                        // options: {
+                        //     name: '[name].[ext]',
+                        // },
                     },
                 ],
             }
@@ -38,6 +42,9 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new FaviconsWebpackPlugin({
+            logo:  "./public/images/moedas80x80.png",
+        }),
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
