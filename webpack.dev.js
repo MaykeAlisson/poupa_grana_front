@@ -8,7 +8,6 @@ module.exports = merge(common, {
     devServer: {
         contentBase: path.join( __dirname, 'dist' ),
         port: 8000,
-        historyApiFallback: true,
-        watchContentBase: true
+        historyApiFallback: true
     },
 });
