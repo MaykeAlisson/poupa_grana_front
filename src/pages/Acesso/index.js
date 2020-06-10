@@ -18,7 +18,7 @@ import Link from "@material-ui/core/Link";
 const Acesso = () => {
     const classes = useStyles();
 
-    const [ehCadastro, setCadastro] = useState(false);
+    const [ehCadastro, setCadastro] = useState(true);
     const [redirectBrowser, setRedirectBrowser] = useState(false);
 
     useEffect(() => {

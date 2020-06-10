@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,7 @@ import useStyles from './styles';
 import Logo from '../../../../../public/images/moedas80x80.png';
 import comCustomMsg from "../../../../infra/components/CustomMsg";
 import comCustomLoading from "../../../../infra/components/CustomLoading";
+import isEmpty from "../../../../infra/util/isEmpty";
 
 const Cadastro = (
     {
@@ -24,7 +25,46 @@ const Cadastro = (
     }
 ) => {
     const classes = useStyles();
-
+    
+    const [erro, setErro] = useState({});
+    const inputNome = useRef(null);
+    const inputNascimento = useRef(null);
+    const inputSexo = useRef(null);
+    const inputEmail = useRef(null);
+    const inputSenha = useRef(null);
+    const inputConfirmaSenha = useRef(null);
+    
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    // const [erroNome, setErroNome] = useState(false);
+    
+    const cadastro = () => {
+        
+        const nome = inputNome.current.value;
+        const nascimento = inputNascimento.current.value;
+        // const sexo = inputSexo.current.value;
+        const email = inputEmail.current.value;
+        const senha = inputSenha.current.value;
+        const confimaSenha = inputConfirmaSenha.current.value;
+        
+        if (isEmpty(nome)) {
+            setErro(erro['nome'] = true);
+            setErro(erro['msgNome'] = "Nome obrigatorio!");
+            return;
+        }
+        
+        alert("Passou Cadastro")
+    }
+    
     return (
         <>
             <div style={{width: 300, padding: 10}}>
@@ -42,6 +82,9 @@ const Cadastro = (
                     variant="filled"
                     type="text"
                     defaultValue=""
+                    inputRef={inputNome}
+                    error={erro['nome']}
+                    helperText={erro['msgNome']}
                 />
                 <TextField
                     className={classes.input}
@@ -49,10 +92,10 @@ const Cadastro = (
                     label="Nascimento"
                     type="date"
                     defaultValue="2017-05-24"
-                    // className={classes.textField}
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    inputRef={inputNascimento}
                 />
                 <FormLabel required className={classes.input} component="legend">Sexo</FormLabel>
                 <RadioGroup row aria-label="position" name="position" defaultValue="top">
@@ -60,13 +103,13 @@ const Cadastro = (
                         value="F"
                         control={<Radio color="primary"/>}
                         label="Feminino"
-                        labelPlacement="Feminino"
+                        // labelPlacement="Feminino"
                     />
                     <FormControlLabel
                         value="M"
                         control={<Radio color="primary"/>}
                         label="Masculino"
-                        labelPlacement="Masculino"
+                        // labelPlacement="Masculino"
                     />
                 </RadioGroup>
                 <TextField
@@ -76,6 +119,7 @@ const Cadastro = (
                     variant="filled"
                     type="text"
                     defaultValue=""
+                    inputRef={inputEmail}
                 />
                 <TextField
                     className={classes.input}
@@ -84,6 +128,7 @@ const Cadastro = (
                     variant="filled"
                     type="text"
                     defaultValue=""
+                    inputRef={inputSenha}
                 />
                 <TextField
                     className={classes.input}
@@ -92,6 +137,7 @@ const Cadastro = (
                     variant="filled"
                     type="text"
                     defaultValue=""
+                    inputRef={inputConfirmaSenha}
                 />
                 <Button
                     variant="contained"
@@ -101,7 +147,7 @@ const Cadastro = (
                         marginTop: 24, marginBottom: 24, color: 'white', backgroundColor: '#028743',
                     }}
                     onClick={() => {
-                        // onClink()
+                        cadastro();
                     }}
                 >
                     Cadastro

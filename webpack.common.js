@@ -42,12 +42,12 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new FaviconsWebpackPlugin({
-            logo:  "./public/images/moedas80x80.png",
-        }),
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html"
+        }),
+        new FaviconsWebpackPlugin({
+            logo:  "./public/images/moedas80x80.png",
         }),
         new ServiceWorkerWebpackPlugin({
             entry: path.join(__dirname, './src/sw.js'),
