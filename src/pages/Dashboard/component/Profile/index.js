@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 
 import Contexto from '../../../../contexto'
+import './styles.css';
 
-
-const Home = () => {
+const Profile = () => {
 
     const {usuario, numero} = useContext(Contexto);
 
@@ -11,7 +11,7 @@ const Home = () => {
 
     return (
         <>
-            <h1>Page Home</h1>
+            <h1>Page Profile</h1>
             <h2>{usuario}</h2>
             <span>{numero}</span>
         </>
@@ -19,4 +19,4 @@ const Home = () => {
 
 };
 
-export default Home;
+export default Profile;
