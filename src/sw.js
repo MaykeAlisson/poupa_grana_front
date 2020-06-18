@@ -1,5 +1,6 @@
 const versao = 1;
 const cacheName = 'poupaGrana_cache_v';
+const cacheAtual = cacheName + versao;
 
 // arquivos a ser salvo no cache
 const resourceToPrecache = [
@@ -11,14 +12,28 @@ const resourceToPrecache = [
     '/vendors.bundle.js'
 ];
 
-// escuta instalação sw apos instalado salva cache
+// // escuta instalação sw apos instalado salva cache
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(cacheName + versao)
+        caches.open(cacheAtual)
             .then(cache => (
                 cache.addAll(resourceToPrecache)
-                    .then(() => cache.delete(cacheName + (versao - 1)))
+                    .then(() => console.log(`CRIADO CACHE: ${cacheAtual}`))
             )),
+    );
+});
+
+// Clear cache on activate
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith('b2b_cache_v')))
+                    .filter(cacheName => (cacheName !== cacheAtual))
+                    .map(cacheName => caches.delete(cacheName))
+            );
+        })
     );
 });
 
@@ -26,7 +41,13 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
-            .then(cacheResponse => (cacheResponse || fetch(event.request)))
+            .then(response => {
+                return response || fetch(event.request);
+            })
+            .catch(() => {
+//                 return caches.match('/offline/index.html');
+                console.log("Sw Pagina solicitada nao encontrada")
+            })
     )
 });
 

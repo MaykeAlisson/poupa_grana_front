@@ -9,22 +9,32 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useTheme from "@material-ui/core/styles/useTheme";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HomeIcon from '@material-ui/icons/Home';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import PersonIcon from '@material-ui/icons/Person';
+import BallotIcon from '@material-ui/icons/Ballot';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import InfoIcon from '@material-ui/icons/Info';
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 import useStyles from './styles';
 import Home from "./component/Home";
 import Profile from "./component/Profile";
+import Contas from "./component/Contas";
+import Balanco from "./component/Balanco";
+import Objetivos from "./component/Objetivos";
+import Configuracoes from "./component/Configuracoes";
+import Informacoes from "./component/Informacoes";
 
 function ResponsiveDrawer(props) {
     const classes = useStyles();
@@ -46,30 +56,48 @@ function ResponsiveDrawer(props) {
                 <ListItem button key={1} onClick={() => {
                     history.push("/");
                 }}>
-                    <ListItemIcon> <InboxIcon/> </ListItemIcon>
+                    <ListItemIcon> <HomeIcon/> </ListItemIcon>
                     <ListItemText primary='Home'/>
                 </ListItem>
                 <ListItem button key={2} onClick={() => {
-                    history.push("/profile");
+                    history.push("/contas");
                 }}>
-                    <ListItemIcon> <MailIcon/> </ListItemIcon>
-                    <ListItemText primary='Profile'/>
+                    <ListItemIcon> <AccountBalanceWalletIcon/> </ListItemIcon>
+                    <ListItemText primary='Minhas Contas'/>
                 </ListItem>
                 <ListItem button key={3} onClick={() => {
+                    history.push("/balanco");
+                }}>
+                    <ListItemIcon> <TimelineIcon/> </ListItemIcon>
+                    <ListItemText primary='Balanço'/>
+                </ListItem>
+                <ListItem button key={4} onClick={() => {
                     history.push("/objetivos");
                 }}>
-                    <ListItemIcon> <InboxIcon/> </ListItemIcon>
+                    <ListItemIcon> <BallotIcon/> </ListItemIcon>
                     <ListItemText primary='Objetivos'/>
                 </ListItem>
             </List>
             <Divider/>
             <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                        <ListItemText primary={text}/>
-                    </ListItem>
-                ))}
+                <ListItem button key={5} onClick={() => {
+                    history.push("/perfil");
+                }}>
+                    <ListItemIcon> <PersonIcon/> </ListItemIcon>
+                    <ListItemText primary='Perfil'/>
+                </ListItem>
+                <ListItem button key={6} onClick={() => {
+                    history.push("/configuracoes");
+                }}>
+                    <ListItemIcon> <ConfirmationNumberIcon/> </ListItemIcon>
+                    <ListItemText primary='Configurações'/>
+                </ListItem>
+                <ListItem button key={7} onClick={() => {
+                    history.push("/informacoes");
+                }}>
+                    <ListItemIcon> <InfoIcon/> </ListItemIcon>
+                    <ListItemText primary='Informações'/>
+                </ListItem>
             </List>
         </div>
     );
@@ -99,8 +127,10 @@ function ResponsiveDrawer(props) {
                             <AccountCircle/>
                         </IconButton>
                         <p>Usuario</p>
-                        <IconButton aria-label="Sair" onClick={() => {alert('sair')}}>
-                            <ExitToAppIcon  className={classes.iconeSair}/>
+                        <IconButton aria-label="Sair" onClick={() => {
+                            props.onLogoutSuccess();
+                        }}>
+                            <ExitToAppIcon className={classes.iconeSair}/>
                         </IconButton>
                     </div>
                 </Toolbar>
@@ -140,7 +170,12 @@ function ResponsiveDrawer(props) {
                 <div className={classes.toolbar}/>
                 <Switch>
                     <Route path='/' exact component={Home}/>
-                    <Route path='/profile' exact component={Profile}/>
+                    <Route path='/contas' exact component={Contas}/>
+                    <Route path='/balanco' exact component={Balanco}/>
+                    <Route path='/objetivos' exact component={Objetivos}/>
+                    <Route path='/perfil' exact component={Profile}/>
+                    <Route path='/configuracoes' exact component={Configuracoes}/>
+                    <Route path='/informacoes' exact component={Informacoes}/>
                     <Route component={Home}/>
                 </Switch>
             </main>

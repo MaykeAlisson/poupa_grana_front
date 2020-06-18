@@ -28,7 +28,7 @@ ReactDOM.render(
     <BrowserRouter>
         <ThemeProvider theme={theme}>
             <App>
-                <Routes/>
+                {/*<Routes/>*/}
             </App>
         </ThemeProvider>
     </BrowserRouter>
