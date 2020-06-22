@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import useStyles from './styles';
+import Grid from "@material-ui/core/Grid";
 
 const contas = [
     {
@@ -38,6 +39,16 @@ const contas = [
         'descricao': 'conta5',
         'disponivel': 500
     },
+    {
+        'id': 6,
+        'descricao': 'conta5',
+        'disponivel': 500
+    },
+    {
+        'id': 7,
+        'descricao': 'conta5',
+        'disponivel': 500
+    },
 ];
 
 const CardContas = () => {
@@ -51,57 +62,57 @@ const CardContas = () => {
 
     return (
         <>
-            {
-                contas.map(conta => (
-                    <Card className={classes.root}>
-                        <CardHeader key={conta.id}
-                            avatar={
-                                <Avatar key={conta.id} aria-label="recipe" className={classes.avatar}>
-                                    $
-                                </Avatar>
-                            }
-                            title={conta.descricao}
-                            subheader={`R$ ${conta.disponivel}`}
-                        />
-                        <CardActions disableSpacing>
-                            <Typography>
-                                Lançamentos
-                            </Typography>
-                            <IconButton
-                                className={clsx(classes.expand, {
-                                    [classes.expandOpen]: expanded,
-                                })}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                                <ExpandMoreIcon/>
-                            </IconButton>
-                        </CardActions>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent key={conta.id}>
-                                <Typography paragraph>
-                                    25/06/2020 - Cafe - R$ 2,50
+                {
+                    contas.map(conta => (
+                        <Card className={classes.root}>
+                            <CardHeader key={conta.id}
+                                        avatar={
+                                            <Avatar key={conta.id} aria-label="recipe" className={classes.avatar}>
+                                                $
+                                            </Avatar>
+                                        }
+                                        title={conta.descricao}
+                                        subheader={`R$ ${conta.disponivel}`}
+                            />
+                            <CardActions disableSpacing>
+                                <Typography>
+                                    Lançamentos
                                 </Typography>
-                                <Typography paragraph>
-                                    25/06/2020 - Cafe - R$ 2,50
-                                </Typography>
-                                <Typography paragraph>
-                                    25/06/2020 - Cafe - R$ 2,50
-                                </Typography>
-                                <Typography paragraph>
-                                    25/06/2020 - Cafe - R$ 2,50
-                                </Typography>
-                                <Typography paragraph>
-                                    25/06/2020 - Cafe - R$ 2,50
-                                </Typography>
-                            </CardContent>
-                        </Collapse>
-                    </Card>
-                ))
-            }
-            </>
-        
+                                <IconButton
+                                    className={clsx(classes.expand, {
+                                        [classes.expandOpen]: expanded,
+                                    })}
+                                    onClick={handleExpandClick}
+                                    aria-expanded={expanded}
+                                    aria-label="show more"
+                                >
+                                    <ExpandMoreIcon/>
+                                </IconButton>
+                            </CardActions>
+                            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                <CardContent key={conta.id}>
+                                    <Typography paragraph>
+                                        25/06/2020 - Cafe - R$ 2,50
+                                    </Typography>
+                                    <Typography paragraph>
+                                        25/06/2020 - Cafe - R$ 2,50
+                                    </Typography>
+                                    <Typography paragraph>
+                                        25/06/2020 - Cafe - R$ 2,50
+                                    </Typography>
+                                    <Typography paragraph>
+                                        25/06/2020 - Cafe - R$ 2,50
+                                    </Typography>
+                                    <Typography paragraph>
+                                        25/06/2020 - Cafe - R$ 2,50
+                                    </Typography>
+                                </CardContent>
+                            </Collapse>
+                        </Card>
+                    ))
+                }
+        </>
+
     );
 }
 
