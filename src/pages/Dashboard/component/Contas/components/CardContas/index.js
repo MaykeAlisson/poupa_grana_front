@@ -12,41 +12,49 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import useStyles from './styles';
 import Grid from "@material-ui/core/Grid";
+import {useState} from "react";
 
 const contas = [
     {
         'id': 1,
         'descricao': 'conta1',
+        'porcentagem': 30,
         'disponivel': 1.500
     },
     {
         'id': 2,
         'descricao': 'conta2',
+        'porcentagem': 20,
         'disponivel': 1.000
     },
     {
         'id': 3,
         'descricao': 'conta3',
+        'porcentagem': 5,
         'disponivel': 500
     },
     {
         'id': 4,
         'descricao': 'conta4',
+        'porcentagem': 5,
         'disponivel': 500
     },
     {
         'id': 5,
         'descricao': 'conta5',
+        'porcentagem': 5,
         'disponivel': 500
     },
     {
         'id': 6,
         'descricao': 'conta5',
+        'porcentagem': 5,
         'disponivel': 500
     },
     {
         'id': 7,
         'descricao': 'conta5',
+        'porcentagem': 5,
         'disponivel': 500
     },
 ];
@@ -54,10 +62,14 @@ const contas = [
 const CardContas = () => {
     const classes = useStyles();
 
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const [openId, setOpenId] = useState(null);
+        
+    const handleExpandClick = (id) => {
+        if (id === openId) {
+            setOpenId(null);
+            return;
+        }
+        setOpenId(id);
     };
 
     return (
@@ -72,24 +84,27 @@ const CardContas = () => {
                                             </Avatar>
                                         }
                                         title={conta.descricao}
-                                        subheader={`R$ ${conta.disponivel}`}
+                                        subheader={`${conta.porcentagem}%`}
                             />
+                            <Typography>
+                                Disponivel ${conta.disponivel}
+                            </Typography>
                             <CardActions disableSpacing>
                                 <Typography>
                                     Lançamentos
                                 </Typography>
                                 <IconButton
                                     className={clsx(classes.expand, {
-                                        [classes.expandOpen]: expanded,
+                                        [classes.expandOpen]: openId === conta.id,
                                     })}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
+                                    onClick={ () => {handleExpandClick(conta.id)}}
+                                    aria-expanded={openId === conta.id}
                                     aria-label="show more"
                                 >
                                     <ExpandMoreIcon/>
                                 </IconButton>
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <Collapse in={openId === conta.id} timeout="auto" unmountOnExit>
                                 <CardContent key={conta.id}>
                                     <Typography paragraph>
                                         25/06/2020 - Cafe - R$ 2,50

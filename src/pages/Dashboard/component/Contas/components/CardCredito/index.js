@@ -15,10 +15,10 @@ import useStyles from './styles';
 const CardCredito = () => {
     const classes = useStyles();
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [abreCard, setAbreCard] = React.useState(false);
 
     const handleExpandClick = () => {
-        setExpanded(!expanded);
+        setAbreCard(!abreCard);
     };
 
     return (
@@ -37,17 +37,17 @@ const CardCredito = () => {
                     Lançamentos
                 </Typography>
                 <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
+                    className={clsx(classes.aberto, {
+                        [classes.abertoTrue]: abreCard,
                     })}
                     onClick={handleExpandClick}
-                    aria-expanded={expanded}
+                    aria-expanded={abreCard}
                     aria-label="show more"
                 >
                     <ExpandMoreIcon/>
                 </IconButton>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Collapse in={abreCard} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
                         25/06/2020 - Cafe - R$ 2,50

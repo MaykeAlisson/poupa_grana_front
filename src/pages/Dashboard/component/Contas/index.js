@@ -14,15 +14,14 @@ const Contas = () => {
 
     return (
         <>
-            {/*<Grid item xs={12} md={10}>*/}
-                <Grid
-                    container
-                    spacing={3}
-                >
-                    <CardCredito/>
-                    <CardContas/>
-                </Grid>
-            {/*</Grid>*/}
+            <Grid
+                className={classes.container}
+                container
+                spacing={3}
+            >
+                <CardCredito/>
+                <CardContas/>
+            </Grid>
         </>
     );
 
