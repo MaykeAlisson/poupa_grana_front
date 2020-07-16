@@ -3,10 +3,13 @@ import isEmpty from '../infra/util/isEmpty';
 import replaceAll from '../infra/util/String/replaceAll';
 import trim from '../infra/util/String/trim';
 
-const urlLogin = '/api/seguranca/v1/login/b2b';
 const urlCliente = '/api/vendas/v1/clienteb2b';
+const urlClienteV2 = '/api/vendas/v2/clienteb2b';
+const urlLogin = '/api/seguranca/v1/login/b2b';
+const urlLoginV2 = '/api/seguranca/v2/login/b2b';
 const urlPedido = '/api/vendas/v1/pedidob2b';
 const urlMercadoria = '/api/estoque/v1/mercadoriab2b';
+const urlVenda = '/api/vendas/v1/venda';
 
 export const Api = {
 
@@ -14,7 +17,8 @@ export const Api = {
 
         buscar: () => http.get(urlCliente),
 
-        buscarPrazos: cnpj => http.get( `${urlCliente}?cnpj=${cnpj}&prazos=true`),
+        buscarPrazos: (cnpj, idGeracao) =>
+            http.get( `${urlClienteV2}?cnpj=${cnpj}&geracao=${idGeracao}&prazos=true`),
 
         buscarVlrBoletoPrevisaoEntrega: cnpj => http.get( `${urlCliente}?cnpj=${cnpj}&boleto=true&previsao=true`)
 
@@ -24,7 +28,13 @@ export const Api = {
 
         login: (cnpj, senha) => http.post(urlLogin, {cnpj, senha}),
 
-        cadastro: (cnpj) => http.post( `${urlLogin}?solicitacao=true`, {cnpj}),
+        cadastro: cnpj => http.post( `${urlLoginV2}?solicitacao=true`, {cnpj}),
+
+        recuperarSenha: cnpj => http.post( `${urlLoginV2}?recuperar_senha=true`, {cnpj}),
+
+        checkKeyTrocaSenha: obj => http.post( `${urlLoginV2}?check_key=true`, obj),
+
+        alterarSenha: obj => http.patch(urlLoginV2, obj),
 
         trocaSenha: (senhaAtual, novaSenha) => http.patch(urlLogin, {senhaAtual, novaSenha}),
 
@@ -67,12 +77,27 @@ export const Api = {
 
     Pedido: {
 
-        buscar: (cnpj) => http.get(`${urlPedido}?cnpj=${cnpj}`),
+        buscar: cnpj => http.get(`${urlPedido}?cnpj=${cnpj}`),
 
-        gravar: (pedido) => http.post(urlPedido, {...pedido}),
+        gravar: pedido => http.post(urlPedido, {...pedido}),
 
-        finalizar: (pedido) => http.post(`${urlPedido}?enviar=true`, {...pedido}),
+        finalizar: pedido => http.post(`${urlPedido}?enviar=true`, {...pedido}),
 
-        alterarPrazo: (cnpj,idClientePrazo) => http.patch(`${urlPedido}?cnpj=${cnpj}`, {idClientePrazo})
+        alterarPrazo: (cnpj,idClientePrazo) => http.patch(`${urlPedido}?cnpj=${cnpj}`, {idClientePrazo}),
+
+        trocarBrinde: (cnpj,obj) =>
+            http.patch(`${urlPedido}?cnpj=${cnpj}&troca_brinde=true`, obj),
+
+        historico: (cnpj) => http.get( `${urlPedido}?cnpj=${cnpj}&historico=true`)
+
+    },
+
+    Venda: {
+
+        segundaViaBoleto: (cnpj, nota) => http.get(`${urlVenda}?cnpj=${cnpj}&boleto=true&notaFiscal=${nota}`),
+
+        segundaViaXml: (cnpj, nota) => http.get( `${urlVenda}?cnpj=${cnpj}&xml=true&notaFiscal=${nota}`)
+
     }
+
 };
